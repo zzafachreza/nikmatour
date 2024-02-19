@@ -45,6 +45,7 @@ import {
   BayarDetail,
   BayarAdd,
   JamaahDetail,
+  JamaahAgen,
 
 
 } from '../pages';
@@ -114,6 +115,15 @@ export default function Router() {
       <Stack.Screen
         name="JamaahDetail"
         component={JamaahDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="JamaahAgen"
+        component={JamaahAgen}
         options={{
           headerShown: false,
         }}

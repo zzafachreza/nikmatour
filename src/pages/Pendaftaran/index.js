@@ -14,7 +14,7 @@ export default function Pendaftaran({ navigation, route }) {
         navigation.goBack();
     }
     const [kirim, setKirim] = useState({
-        input_by: route.params.id,
+        input_by: route.params.id_pengguna,
         fid_pengguna: '',
         nama_jamaah: '',
         alamat_jamaah: '',
@@ -124,8 +124,8 @@ export default function Pendaftaran({ navigation, route }) {
                         includeBase64: true,
                         quality: 1,
                         mediaType: "photo",
-                        maxWidth: 200,
-                        maxHeight: 200
+                        maxWidth: 500,
+                        maxHeight: 500
                     }, response => {
                         // console.log('All Response = ', response);
 
@@ -165,8 +165,8 @@ export default function Pendaftaran({ navigation, route }) {
                         includeBase64: true,
                         quality: 1,
                         mediaType: "photo",
-                        maxWidth: 200,
-                        maxHeight: 200
+                        maxWidth: 500,
+                        maxHeight: 500
                     }, response => {
                         // console.log('All Response = ', response);
 
@@ -202,8 +202,8 @@ export default function Pendaftaran({ navigation, route }) {
                         includeBase64: true,
                         quality: 1,
                         mediaType: "photo",
-                        maxWidth: 200,
-                        maxHeight: 200
+                        maxWidth: 500,
+                        maxHeight: 500
                     }, response => {
                         // console.log('All Response = ', response);
 
@@ -239,8 +239,8 @@ export default function Pendaftaran({ navigation, route }) {
                         includeBase64: true,
                         quality: 1,
                         mediaType: "photo",
-                        maxWidth: 200,
-                        maxHeight: 200
+                        maxWidth: 500,
+                        maxHeight: 500
                     }, response => {
                         // console.log('All Response = ', response);
 

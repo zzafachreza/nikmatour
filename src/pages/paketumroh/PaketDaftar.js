@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableWithoutFeedback, Image, StyleSheet, SafeAreaView, Alert } from 'react-native'
+import { View, Text, FlatList, TouchableWithoutFeedback, Image, StyleSheet, SafeAreaView, Alert, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { MyButton, MyGap, MyHeader, MyPicker } from '../../components'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -12,10 +12,12 @@ export default function PaketDaftar({ navigation, route }) {
     const item = route.params.item;
     const user = route.params.user;
     console.log(user)
+    const [loading, setLoading] = useState(false);
 
     const [kirim, setKirim] = useState({
         fid_paket: item.id,
         input_by: user.id_pengguna,
+        ref_pengguna: user.ref_pengguna,
         fid_jamaah: '',
         fid_tambahan: '',
         addon: 0,
@@ -24,6 +26,7 @@ export default function PaketDaftar({ navigation, route }) {
 
     const [jamaah, setJamaah] = useState([]);
     const [tambahan, setTambahan] = useState([]);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
 
@@ -39,7 +42,10 @@ export default function PaketDaftar({ navigation, route }) {
             {
                 text: 'Simpan',
                 onPress: () => {
+                    setLoading(true);
                     axios.post(apiURL + 'insert_daftar', kirim).then(res => {
+                        console.log(res.data)
+
                         if (res.data.status == 404) {
                             SweetAlert.showAlertWithOptions({
                                 title: MYAPP,
@@ -57,6 +63,8 @@ export default function PaketDaftar({ navigation, route }) {
                             });
 
                         }
+                    }).finally(() => {
+                        setLoading(false);
                     })
                 }
             }
@@ -68,12 +76,14 @@ export default function PaketDaftar({ navigation, route }) {
         axios.post(apiURL + 'jamaah', {
             input_by: user.id_pengguna
         }).then(res => {
-            setJamaah(res.data);
+            setJamaah(res.data.data);
             setKirim({
                 ...kirim,
-                fid_jamaah: res.data[0].value
+                fid_jamaah: res.data.data[0].value
             })
 
+        }).finally(() => {
+            setOpen(true)
         })
     }
 
@@ -84,7 +94,8 @@ export default function PaketDaftar({ navigation, route }) {
                 ...kirim,
                 fid_tambahan: res.data[0].value.split("#")[0],
                 addon: res.data[0].value.split("#")[1],
-            })
+            });
+
         })
     }
 
@@ -93,8 +104,8 @@ export default function PaketDaftar({ navigation, route }) {
             flex: 1,
             backgroundColor: colors.black
         }}>
-            <MyHeader judul="Daftarkan jamaah" />
-            <ScrollView showsVerticalScrollIndicato={false}>
+            <MyHeader judul="Daftarkan jamaah" onPress={() => navigation.goBack()} />
+            {open && <ScrollView showsVerticalScrollIndicato={false}>
 
                 <View style={{
                     padding: 20,
@@ -180,9 +191,11 @@ export default function PaketDaftar({ navigation, route }) {
                     </View>
 
                     <MyGap jarak={20} />
-                    <MyButton title="Simpan Data" warna={colors.primary} onPress={sendData} />
+                    {!loading && <MyButton title="Simpan Data" warna={colors.primary} onPress={sendData} />}
+
+                    {loading && <ActivityIndicator size="large" color={colors.primary} />}
                 </View>
-            </ScrollView>
+            </ScrollView>}
         </SafeAreaView>
     )
 }

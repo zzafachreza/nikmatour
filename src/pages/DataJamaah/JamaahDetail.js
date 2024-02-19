@@ -36,7 +36,7 @@ export default function JamaahDetail({ navigation, route }) {
             flex: 1,
             backgroundColor: colors.black
         }}>
-            <MyHeader judul="Detail Jamaah" />
+            <MyHeader judul="Detail Jamaah" onPress={() => navigation.goBack()} />
             <ScrollView>
 
 
@@ -116,6 +116,12 @@ export default function JamaahDetail({ navigation, route }) {
                         height: 200,
                         resizeMode: 'contain'
                     }} />
+                </View>
+
+                <View style={{
+                    padding: 20,
+                }}>
+                    <MyButton onPress={() => navigation.navigate('JamaahAgen', item)} warna={colors.primary} title="Jadikan Jamaah Agen" />
                 </View>
             </ScrollView>
         </SafeAreaView>

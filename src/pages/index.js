@@ -41,6 +41,7 @@ import PaketDaftar from './paketumroh/PaketDaftar';
 import BayarDetail from './pembayaran/BayarDetail';
 import BayarAdd from './pembayaran/BayarAdd';
 import JamaahDetail from './DataJamaah/JamaahDetail';
+import JamaahAgen from './DataJamaah/JamaahAgen';
 
 
 
@@ -77,7 +78,7 @@ export {
   PaketDaftar,
   BayarDetail,
   BayarAdd,
-
+  JamaahAgen,
 
 
 
