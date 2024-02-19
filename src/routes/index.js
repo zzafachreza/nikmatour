@@ -40,6 +40,11 @@ import {
   DataJamaah,
   DataJamaah2,
   Royalti,
+  PaketDetail,
+  PaketDaftar,
+  BayarDetail,
+  BayarAdd,
+  JamaahDetail,
 
 
 } from '../pages';
@@ -69,6 +74,46 @@ export default function Router() {
       <Stack.Screen
         name="Splash"
         component={Splash}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PaketDetail"
+        component={PaketDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PaketDaftar"
+        component={PaketDaftar}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="BayarDetail"
+        component={BayarDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="BayarAdd"
+        component={BayarAdd}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="JamaahDetail"
+        component={JamaahDetail}
         options={{
           headerShown: false,
         }}

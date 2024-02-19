@@ -36,6 +36,11 @@ import Saldoku from './Saldoku';
 import DataJamaah from './DataJamaah';
 import DataJamaah2 from './DataJamaah/ndex2';
 import Royalti from './Royalti';
+import PaketDetail from './paketumroh/PaketDetail';
+import PaketDaftar from './paketumroh/PaketDaftar';
+import BayarDetail from './pembayaran/BayarDetail';
+import BayarAdd from './pembayaran/BayarAdd';
+import JamaahDetail from './DataJamaah/JamaahDetail';
 
 
 
@@ -68,10 +73,13 @@ export {
   DataJamaah,
   DataJamaah2,
   Royalti,
+  PaketDetail,
+  PaketDaftar,
+  BayarDetail,
+  BayarAdd,
 
-  
-  
-  
+
+
 
 
 
@@ -90,6 +98,7 @@ export {
   AsupanMpasi,
   AsupanAsi,
   StatusGizi,
-  StatusGiziHasil
+  StatusGiziHasil,
+  JamaahDetail
 
 };

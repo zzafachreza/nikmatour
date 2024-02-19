@@ -5,8 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { apiURL } from '../../utils/localStorage'
-import { colors } from 'react-native-elements'
-import { MyDimensi, fonts } from '../../utils'
+import { MyDimensi, colors, fonts } from '../../utils'
 
 export default function PaketUmrah({ navigation }) {
   const MyBack = () => {
@@ -39,7 +38,7 @@ export default function PaketUmrah({ navigation }) {
       }}>
         <FlatList data={data} renderItem={({ item, index }) => {
           return (
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('PaketDetail', item)}>
               <View style={{
                 backgroundColor: colors.white,
                 borderRadius: 10,
@@ -55,9 +54,43 @@ export default function PaketUmrah({ navigation }) {
                   padding: 10,
                 }}>
                   <Text style={{
-                    fontFamily: fonts.secondary[600],
+                    fontFamily: fonts.secondary[400],
                     fontSize: MyDimensi / 4
                   }}>{item.paket}</Text>
+                  <Text style={{
+                    fontFamily: fonts.primary[800],
+                    fontSize: MyDimensi / 2.5,
+                    color: colors.primary,
+                  }}>{new Intl.NumberFormat().format(item.harga_paket)}</Text>
+                  {/* <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                  }}>
+                    <Text style={{
+                      backgroundColor: colors.secondary,
+                      paddingHorizontal: 10,
+                      borderRadius: 10,
+                      color: colors.white,
+                      fontFamily: fonts.secondary[400],
+                      fontSize: MyDimensi / 4
+                    }}>Seat : {item.seat}</Text>
+                    <Text style={{
+                      backgroundColor: colors.primary,
+                      paddingHorizontal: 10,
+                      borderRadius: 10,
+                      color: colors.white,
+                      fontFamily: fonts.secondary[400],
+                      fontSize: MyDimensi / 4
+                    }}>Terisi : {item.terisi}</Text>
+                    <Text style={{
+                      backgroundColor: colors.success,
+                      paddingHorizontal: 10,
+                      borderRadius: 10,
+                      color: colors.white,
+                      fontFamily: fonts.secondary[400],
+                      fontSize: MyDimensi / 4
+                    }}>Tersedia : {item.sisa}</Text>
+                  </View> */}
                 </View>
               </View>
             </TouchableWithoutFeedback>
