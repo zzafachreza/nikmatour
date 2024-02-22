@@ -25,7 +25,8 @@ import moment from 'moment';
 import { Icon } from 'react-native-elements';
 import SweetAlert from 'react-native-sweet-alert';
 import { color } from 'react-native-reanimated';
-
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { TouchableWithoutFeedback } from 'react-native';
 export default function Register({ navigation }) {
 
 
@@ -40,6 +41,9 @@ export default function Register({ navigation }) {
         telepon: '',
         alamat: '',
         tanggal_lahir: moment().format('YYYY-MM-DD'),
+        bank: '',
+        rekening: '',
+        foto_ktpagen: 'https://zavalabs.com/nogambar.jpg',
         password: '',
         repassword: '',
 
@@ -204,6 +208,60 @@ export default function Register({ navigation }) {
                             tanggal_lahir: x
                         })
                     }} placeholder='Tanggal Lahir' value={data.tanggal_lahir} iconname='calendar' />
+
+
+                    <MyGap jarak={20} />
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        fontSize: MyDimensi / 4,
+                        color: colors.white,
+                        marginBottom: 10,
+                    }}>Upload Foto KTP</Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        launchImageLibrary({
+                            includeBase64: true,
+                            quality: 1,
+                            mediaType: "photo",
+                            maxWidth: 500,
+                            maxHeight: 500
+                        }, response => {
+                            // console.log('All Response = ', response);
+
+                            setData({
+                                ...data,
+                                foto_ktpagen: `data:${response.type};base64, ${response.base64}`,
+                            });
+                        });
+                    }}>
+                        <View style={{
+                            backgroundColor: colors.white,
+                            borderRadius: 10,
+                            overflow: 'hidden'
+                        }}>
+                            <Image style={{
+                                width: '100%',
+                                height: 200,
+                                resizeMode: 'contain'
+                            }} source={{
+                                uri: data.foto_ktpagen
+                            }} />
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <MyGap jarak={20} />
+                    {/* NOMOR TELEPON */}
+                    <MyInput label='Nama Bank' onChangeText={x => setData({
+                        ...data,
+                        bank: x
+                    })} iconname='home' placeholder='Nama Bank' />
+                    <MyGap jarak={20} />
+
+                    {/* NOMOR TELEPON */}
+                    <MyInput label='Nomor Rekening' keyboardType='phone-pad' onChangeText={x => setData({
+                        ...data,
+                        rekening: x
+                    })} iconname='card' placeholder='Nomor Rekening' />
+
+
                     <MyGap jarak={20} />
                     {/*INPUT KATA SANDI */}
                     <MyInput

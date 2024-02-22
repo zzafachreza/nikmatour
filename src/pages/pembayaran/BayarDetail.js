@@ -10,16 +10,22 @@ import { MyDimensi, colors, fonts } from '../../utils'
 import SweetAlert from 'react-native-sweet-alert';
 import { showMessage } from 'react-native-flash-message'
 import moment from 'moment'
+import { useIsFocused } from '@react-navigation/native'
 
 export default function BayarDetail({ navigation, route }) {
     const item = route.params;
 
     const [data, setData] = useState([]);
+    const isFocus = useIsFocused();
 
 
     useEffect(() => {
-        __getBayar();
-    }, []);
+        if (isFocus) {
+            __getBayar();
+        }
+
+    }, [isFocus]);
+
 
 
     const __getBayar = () => {

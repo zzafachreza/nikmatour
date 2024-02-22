@@ -7,6 +7,7 @@ import axios from 'axios'
 import { apiURL } from '../../utils/localStorage'
 import { MyDimensi, colors, fonts } from '../../utils'
 import moment from 'moment'
+import { useIsFocused } from '@react-navigation/native'
 
 export default function Pembayaran({ navigation, route }) {
   const user = route.params;
@@ -16,19 +17,28 @@ export default function Pembayaran({ navigation, route }) {
   }
 
   const [data, setData] = useState([]);
-
+  const [total, setTotal] = useState(0);
+  const isFocus = useIsFocused();
   useEffect(() => {
-    __getDaftar();
-  }, []);
+    if (isFocus) {
+      __getDaftar();
+    }
+  }, [isFocus]);
 
   const __getDaftar = () => {
     axios.post(apiURL + 'daftar', {
       input_by: user.id_pengguna
     }).then(res => {
       console.log(res.data);
+      let byr = 0
+      res.data.map(i => {
+        byr += parseFloat(i.bayar);
+      });
+      setTotal(byr);
       setData(res.data);
     })
   }
+  var totalBayar = 0;
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>
       {/* HEADERS */}
@@ -37,10 +47,11 @@ export default function Pembayaran({ navigation, route }) {
       {/* MAIN */}
       <ScrollView style={{ padding: 20, }}>
         {/* TANGGAL KEBERANGKATAN */}
-        <MyCalendar label="Tanggal Keberangkatan :" />
 
         <MyGap jarak={20} />
         <FlatList data={data} renderItem={({ item, index }) => {
+
+
           return (
             <TouchableWithoutFeedback onPress={() => navigation.navigate('BayarDetail', item)}>
               <View style={{
@@ -190,6 +201,22 @@ export default function Pembayaran({ navigation, route }) {
         }} />
         <MyGap jarak={20} />
       </ScrollView>
+      <View style={{
+        flexDirection: 'row',
+        padding: 10,
+      }}>
+        <Text style={{
+          flex: 1,
+          fontFamily: fonts.secondary[600],
+          fontSize: MyDimensi / 4,
+          color: colors.white,
+        }}>Total Pembayaran</Text>
+        <Text style={{
+          fontFamily: fonts.secondary[800],
+          fontSize: MyDimensi / 3,
+          color: colors.white,
+        }}>{new Intl.NumberFormat().format(total)}</Text>
+      </View>
     </View >
   )
 }

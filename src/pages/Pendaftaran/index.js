@@ -25,6 +25,8 @@ export default function Pendaftaran({ navigation, route }) {
         foto_paspor: 'https://zavalabs.com/nogambar.jpg',
         foto_kk: 'https://zavalabs.com/nogambar.jpg',
         foto_tambahan: 'https://zavalabs.com/nogambar.jpg',
+        foto_keterangan: 'https://zavalabs.com/nogambar.jpg',
+        foto_wajah: 'https://zavalabs.com/nogambar.jpg',
     })
     const [pengguna, setPengguna] = useState([]);
     const [loading, setLoading] = useState(false)
@@ -77,7 +79,9 @@ export default function Pendaftaran({ navigation, route }) {
 
     const [open, setOpen] = useState(false);
     const __getPengguna = () => {
-        axios.post(apiURL + 'pengguna').then(res => {
+        axios.post(apiURL + 'pengguna', {
+            id_pengguna: route.params.id_pengguna
+        }).then(res => {
             console.log(res.data);
             setPengguna(res.data);
             setKirim({
@@ -264,6 +268,85 @@ export default function Pendaftaran({ navigation, route }) {
                         }} />
                     </View>
                 </TouchableWithoutFeedback>
+
+                <MyGap jarak={10} />
+                <Text style={{
+                    fontFamily: fonts.secondary[600],
+                    fontSize: MyDimensi / 4,
+                    color: colors.white,
+                    marginBottom: 10,
+                }}>Upload Foto Surat Keterangan
+                </Text>
+                <TouchableWithoutFeedback onPress={() => {
+                    launchImageLibrary({
+                        includeBase64: true,
+                        quality: 1,
+                        mediaType: "photo",
+                        maxWidth: 500,
+                        maxHeight: 500
+                    }, response => {
+                        // console.log('All Response = ', response);
+
+                        setKirim({
+                            ...kirim,
+                            foto_keterangan: `data:${response.type};base64, ${response.base64}`,
+                        });
+                    });
+                }}>
+                    <View style={{
+                        backgroundColor: colors.white,
+                        borderRadius: 10,
+                        overflow: 'hidden'
+                    }}>
+                        <Image style={{
+                            width: '100%',
+                            height: 200,
+                            resizeMode: 'contain'
+                        }} source={{
+                            uri: kirim.foto_keterangan
+                        }} />
+                    </View>
+                </TouchableWithoutFeedback>
+
+                <MyGap jarak={10} />
+                <Text style={{
+                    fontFamily: fonts.secondary[600],
+                    fontSize: MyDimensi / 4,
+                    color: colors.white,
+                    marginBottom: 10,
+                }}>Upload Pas Foto Latar Belakang Putih
+                </Text>
+                <TouchableWithoutFeedback onPress={() => {
+                    launchImageLibrary({
+                        includeBase64: true,
+                        quality: 1,
+                        mediaType: "photo",
+                        maxWidth: 500,
+                        maxHeight: 500
+                    }, response => {
+                        // console.log('All Response = ', response);
+
+                        setKirim({
+                            ...kirim,
+                            foto_wajah: `data:${response.type};base64, ${response.base64}`,
+                        });
+                    });
+                }}>
+                    <View style={{
+                        backgroundColor: colors.white,
+                        borderRadius: 10,
+                        overflow: 'hidden'
+                    }}>
+                        <Image style={{
+                            width: '100%',
+                            height: 200,
+                            resizeMode: 'contain'
+                        }} source={{
+                            uri: kirim.foto_wajah
+                        }} />
+                    </View>
+                </TouchableWithoutFeedback>
+
 
                 <MyGap jarak={20} />
 

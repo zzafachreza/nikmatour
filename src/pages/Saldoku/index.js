@@ -1,96 +1,188 @@
-import { View, Text, ScrollView, FlatList, TouchableWithoutFeedback } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { MyButtonSecond, MyCalendar, MyGap, MyHeader, MyPicker } from '../../components';
-import { apiURL } from '../../utils/localStorage';
-import axios from 'axios';
-import { MyDimensi, colors, fonts } from '../../utils';
-import { Icon } from 'react-native-elements';
-
+import { View, Text, FlatList, TouchableWithoutFeedback, Image, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { MyCalendar, MyGap, MyHeader } from '../../components'
+import { ScrollView } from 'react-native-gesture-handler'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { apiURL } from '../../utils/localStorage'
+import { MyDimensi, colors, fonts } from '../../utils'
+import moment from 'moment'
+import { useIsFocused } from '@react-navigation/native'
 
 export default function Saldoku({ navigation, route }) {
   const user = route.params;
-  const [jamaah, setJamaah] = useState([]);
+
+  const MyBack = () => {
+    navigation.goBack();
+  }
+
+  const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
-
+  const isFocus = useIsFocused();
   useEffect(() => {
-    __getJamaah();
-  }, []);
+    if (isFocus) {
+      __getDaftar();
+    }
+  }, [isFocus]);
 
-
-  const __getJamaah = () => {
-    axios.post(apiURL + 'jamaah', {
+  const __getDaftar = () => {
+    axios.post(apiURL + 'daftar', {
       input_by: user.id_pengguna
     }).then(res => {
       console.log(res.data);
-      setJamaah(res.data.data);
-      setTotal(res.data.total_bayar)
-
-
+      let byr = 0
+      res.data.map(i => {
+        byr += parseFloat(i.fee);
+      });
+      setTotal(byr);
+      setData(res.data);
     })
   }
-  const BackPage = () => {
-    navigation.goBack();
-  }
+  var totalBayar = 0;
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>
       {/* HEADERS */}
-      <MyHeader onPress={BackPage} judul='SaldoKu' />
+      <MyHeader onPress={MyBack} judul='Saldoku' />
 
-      <View style={{
-        flex: 1,
-      }}>
-        <FlatList data={jamaah} renderItem={({ item, index }) => {
+      {/* MAIN */}
+      <ScrollView style={{ padding: 20, }}>
+        {/* TANGGAL KEBERANGKATAN */}
+
+        <MyGap jarak={20} />
+        <FlatList data={data} renderItem={({ item, index }) => {
+
+
           return (
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('BayarDetail', item)}>
               <View style={{
-                marginVertical: 5,
-                borderRadius: 10,
+                marginVertical: 10,
                 backgroundColor: colors.white,
                 padding: 10,
-                marginHorizontal: 20,
-                flexDirection: 'row',
-                alignItems: 'center',
               }}>
                 <View style={{
-                  flex: 1,
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.border,
+                  paddingVertical: 5,
                 }}>
-                  <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4 }}>
-                    Nomor KTP
-                  </Text>
-                  <Text style={{ fontFamily: fonts.secondary[600], ontSize: MyDimensi / 4 }}>
-                    {item.nomor_ktp}
-                  </Text>
-                  <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4 }}>
-                    Nama Jamaah
-                  </Text>
-                  <Text style={{ fontFamily: fonts.secondary[600], ontSize: MyDimensi / 4 }}>
-                    {item.nama_jamaah}
-                  </Text>
-                  <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4 }}>
-                    Nomor Telepon
-                  </Text>
-                  <Text style={{ fontFamily: fonts.secondary[600], ontSize: MyDimensi / 4 }}>
-                    {item.telepon_jamaah}
-                  </Text>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[800],
+                    fontSize: MyDimensi / 4
+                  }}>Nomor KTP</Text>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[600],
+                    fontSize: MyDimensi / 4
+                  }}>{item.nomor_ktp}</Text>
                 </View>
-                <View>
-                  <Text style={{ fontFamily: fonts.secondary[800], ontSize: MyDimensi / 3 }}>
-                    {new Intl.NumberFormat().format(item.bayar)}
-                  </Text>
+                <View style={{
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.border,
+                  paddingVertical: 5,
+                }}>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[800],
+                    fontSize: MyDimensi / 4
+                  }}>Nama Jamaah</Text>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[600],
+                    fontSize: MyDimensi / 4
+                  }}>{item.nama_jamaah}</Text>
+                </View>
+                <View style={{
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.border,
+                  paddingVertical: 5,
+                }}>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[800],
+                    fontSize: MyDimensi / 4
+                  }}>Telepon Jamaah</Text>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[600],
+                    fontSize: MyDimensi / 4
+                  }}>{item.telepon_jamaah}</Text>
+                </View>
+                <View style={{
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.border,
+                  paddingVertical: 5,
+                }}>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[800],
+                    fontSize: MyDimensi / 4
+                  }}>Keberangkatan</Text>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[600],
+                    fontSize: MyDimensi / 4
+                  }}>{moment(item.tanggal_keberangkatan).format('DD MMMM YYYY')}</Text>
+                </View>
+                <View style={{
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.border,
+                  paddingVertical: 5,
+                }}>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[800],
+                    color: colors.primary,
+                    fontSize: MyDimensi / 4
+                  }}>{item.paket}</Text>
                 </View>
 
+                <View style={{
+                  flexDirection: 'row',
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.border,
+                  paddingVertical: 5,
+                }}>
+                  <Text style={{
+                    flex: 1,
+                    fontFamily: fonts.secondary[800],
+                    fontSize: MyDimensi / 4
+                  }}>Total Fee</Text>
+                  <Text style={{
+                    flex: 1,
+                    textAlign: 'right',
+                    fontFamily: fonts.secondary[800],
+                    fontSize: MyDimensi / 3
+                  }}>{new Intl.NumberFormat().format(item.fee)}</Text>
+                </View>
 
               </View>
             </TouchableWithoutFeedback>
           )
         }} />
+        <MyGap jarak={20} />
+      </ScrollView>
+      <View style={{
+        flexDirection: 'row',
+        padding: 10,
+      }}>
+        <Text style={{
+          flex: 1,
+          fontFamily: fonts.secondary[600],
+          fontSize: MyDimensi / 4,
+          color: colors.white,
+        }}>Total Fee</Text>
+        <Text style={{
+          fontFamily: fonts.secondary[800],
+          fontSize: MyDimensi / 3,
+          color: colors.white,
+        }}>{new Intl.NumberFormat().format(total)}</Text>
       </View>
-      <Text style={{
-        fontFamily: fonts.secondary[800],
-        fontSize: MyDimensi / 2.5,
-        color: colors.white,
-        textAlign: 'center'
-      }}>{new Intl.NumberFormat().format(total)}</Text>
-    </View>
+    </View >
   )
 }

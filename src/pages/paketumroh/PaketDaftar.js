@@ -1,6 +1,6 @@
 import { View, Text, FlatList, TouchableWithoutFeedback, Image, StyleSheet, SafeAreaView, Alert, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
-import { MyButton, MyGap, MyHeader, MyPicker } from '../../components'
+import { MyButton, MyGap, MyHeader, MyInput, MyPicker } from '../../components'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useEffect } from 'react'
 import axios from 'axios'
@@ -17,10 +17,13 @@ export default function PaketDaftar({ navigation, route }) {
     const [kirim, setKirim] = useState({
         fid_paket: item.id,
         input_by: user.id_pengguna,
+        tipe: item.paket,
+        level: user.level,
         ref_pengguna: user.ref_pengguna,
         fid_jamaah: '',
         fid_tambahan: '',
         addon: 0,
+        diskon: 0,
         total: item.harga_paket,
     });
 
@@ -30,7 +33,7 @@ export default function PaketDaftar({ navigation, route }) {
 
     useEffect(() => {
 
-        __getJamaah();
+
         __getTambahan();
 
     }, []);
@@ -60,6 +63,8 @@ export default function PaketDaftar({ navigation, route }) {
                                 subTitle: res.data.message,
                                 style: 'success',
                                 cancellable: true
+                            }, callback => {
+                                navigation.replace('MainApp')
                             });
 
                         }
@@ -72,29 +77,29 @@ export default function PaketDaftar({ navigation, route }) {
     }
 
 
-    const __getJamaah = () => {
-        axios.post(apiURL + 'jamaah', {
-            input_by: user.id_pengguna
-        }).then(res => {
-            setJamaah(res.data.data);
-            setKirim({
-                ...kirim,
-                fid_jamaah: res.data.data[0].value
-            })
 
-        }).finally(() => {
-            setOpen(true)
-        })
-    }
 
     const __getTambahan = () => {
         axios.post(apiURL + 'tambahan').then(res => {
             setTambahan(res.data);
-            setKirim({
-                ...kirim,
-                fid_tambahan: res.data[0].value.split("#")[0],
-                addon: res.data[0].value.split("#")[1],
-            });
+
+            axios.post(apiURL + 'jamaah', {
+                input_by: user.id_pengguna
+            }).then(resj => {
+                console.log('jamaah', resj.data.data[0].value)
+                setJamaah(resj.data.data);
+                setKirim({
+                    ...kirim,
+                    fid_tambahan: res.data[0].value.split("#")[0],
+                    addon: res.data[0].value.split("#")[1],
+                    fid_jamaah: resj.data.data[0].value
+                })
+
+            }).finally(() => {
+                setOpen(true)
+            })
+
+
 
         })
     }
@@ -108,7 +113,7 @@ export default function PaketDaftar({ navigation, route }) {
             {open && <ScrollView showsVerticalScrollIndicato={false}>
 
                 <View style={{
-                    padding: 20,
+                    paddingHorizontal: 20,
                 }}>
                     <Text style={{
                         fontFamily: fonts.secondary[800],
@@ -116,14 +121,14 @@ export default function PaketDaftar({ navigation, route }) {
                         color: colors.white
                     }}>{item.paket}</Text>
 
-                    <MyGap jarak={20} />
+                    <MyGap jarak={10} />
                     <MyPicker label="Pilih Jamaah" onValueChange={x => {
                         setKirim({
                             ...kirim,
                             fid_jamaah: x
                         })
                     }} data={jamaah} />
-                    <MyGap jarak={20} />
+                    <MyGap jarak={10} />
                     <MyPicker label="Pilih Tambahan / AddOn" data={tambahan} onValueChange={x => {
                         setKirim({
                             ...kirim,
@@ -133,6 +138,13 @@ export default function PaketDaftar({ navigation, route }) {
                         });
 
 
+                    }} />
+                    <MyGap jarak={10} />
+                    <MyInput label="Diskon" keyboardType='number-pad' onChangeText={x => {
+                        setKirim({
+                            ...kirim,
+                            diskon: x,
+                        })
                     }} />
                     <MyGap jarak={20} />
                     <View style={{
@@ -180,6 +192,24 @@ export default function PaketDaftar({ navigation, route }) {
                             color: colors.white,
                             fontSize: MyDimensi / 4,
                             flex: 1,
+                        }}>Diskon</Text>
+                        <Text style={{
+                            flex: 1,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: MyDimensi / 3,
+                            color: colors.white,
+                            textAlign: 'right'
+                        }}>{kirim.diskon > 0 ? '-' : ''} {new Intl.NumberFormat().format(kirim.diskon)}</Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            color: colors.white,
+                            fontSize: MyDimensi / 4,
+                            flex: 1,
                         }}>Total Biaya</Text>
                         <Text style={{
                             flex: 1,
@@ -187,7 +217,7 @@ export default function PaketDaftar({ navigation, route }) {
                             fontSize: MyDimensi / 2,
                             color: colors.white,
                             textAlign: 'right'
-                        }}>{new Intl.NumberFormat().format(kirim.total)}</Text>
+                        }}>{new Intl.NumberFormat().format(kirim.total - kirim.diskon)}</Text>
                     </View>
 
                     <MyGap jarak={20} />

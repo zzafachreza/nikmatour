@@ -119,6 +119,44 @@ export default function JamaahDetail({ navigation, route }) {
                 </View>
 
                 <View style={{
+                    marginVertical: 10,
+                    backgroundColor: colors.white,
+                    marginHorizontal: 20,
+                    padding: 10,
+                }}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[800],
+                        fontSize: MyDimensi / 4,
+                    }}>Pas Foto Latar Belakang Putih</Text>
+                    <Image source={{
+                        uri: item.foto_wajah
+                    }} style={{
+                        width: '100%',
+                        height: 200,
+                        resizeMode: 'contain'
+                    }} />
+                </View>
+
+                <View style={{
+                    marginVertical: 10,
+                    backgroundColor: colors.white,
+                    marginHorizontal: 20,
+                    padding: 10,
+                }}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[800],
+                        fontSize: MyDimensi / 4,
+                    }}>Foto Keterangan</Text>
+                    <Image source={{
+                        uri: item.foto_keterangan
+                    }} style={{
+                        width: '100%',
+                        height: 200,
+                        resizeMode: 'contain'
+                    }} />
+                </View>
+
+                <View style={{
                     padding: 20,
                 }}>
                     <MyButton onPress={() => navigation.navigate('JamaahAgen', item)} warna={colors.primary} title="Jadikan Jamaah Agen" />

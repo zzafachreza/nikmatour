@@ -40,6 +40,7 @@ export default function PaketUmrah({ navigation }) {
           return (
             <TouchableWithoutFeedback onPress={() => navigation.navigate('PaketDetail', item)}>
               <View style={{
+                marginVertical: 5,
                 backgroundColor: colors.white,
                 borderRadius: 10,
                 overflow: 'hidden',
@@ -53,6 +54,12 @@ export default function PaketUmrah({ navigation }) {
                 <View style={{
                   padding: 10,
                 }}>
+                  <Text style={{
+                    fontFamily: fonts.secondary[800],
+                    fontSize: MyDimensi / 3,
+                    color: item.tipe == 'Promo' ? colors.danger : colors.black,
+                    textAlign: 'right'
+                  }}>{item.tipe}</Text>
                   <Text style={{
                     fontFamily: fonts.secondary[400],
                     fontSize: MyDimensi / 4
