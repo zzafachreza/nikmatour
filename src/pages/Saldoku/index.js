@@ -53,7 +53,7 @@ export default function Saldoku({ navigation, route }) {
 
 
           return (
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('BayarDetail', item)}>
+            <TouchableWithoutFeedback>
               <View style={{
                 marginVertical: 10,
                 backgroundColor: colors.white,
@@ -93,23 +93,7 @@ export default function Saldoku({ navigation, route }) {
                     fontSize: MyDimensi / 4
                   }}>{item.nama_jamaah}</Text>
                 </View>
-                <View style={{
-                  flexDirection: 'row',
-                  borderBottomWidth: 1,
-                  borderBottomColor: colors.border,
-                  paddingVertical: 5,
-                }}>
-                  <Text style={{
-                    flex: 1,
-                    fontFamily: fonts.secondary[800],
-                    fontSize: MyDimensi / 4
-                  }}>Telepon Jamaah</Text>
-                  <Text style={{
-                    flex: 1,
-                    fontFamily: fonts.secondary[600],
-                    fontSize: MyDimensi / 4
-                  }}>{item.telepon_jamaah}</Text>
-                </View>
+
                 <View style={{
                   flexDirection: 'row',
                   borderBottomWidth: 1,

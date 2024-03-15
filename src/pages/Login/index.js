@@ -235,7 +235,7 @@ export default function Login({ navigation }) {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <ActivityIndicator color={colors.secondary} size="large" />
+        <ActivityIndicator color={colors.black} size="large" />
       </View>}
     </ScrollView>
 

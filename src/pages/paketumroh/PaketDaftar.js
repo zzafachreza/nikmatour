@@ -214,7 +214,7 @@ export default function PaketDaftar({ navigation, route }) {
                         <Text style={{
                             flex: 1,
                             fontFamily: fonts.secondary[800],
-                            fontSize: MyDimensi / 2,
+                            fontSize: MyDimensi / 2.5,
                             color: colors.white,
                             textAlign: 'right'
                         }}>{new Intl.NumberFormat().format(kirim.total - kirim.diskon)}</Text>

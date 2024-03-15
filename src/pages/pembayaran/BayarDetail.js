@@ -11,6 +11,7 @@ import SweetAlert from 'react-native-sweet-alert';
 import { showMessage } from 'react-native-flash-message'
 import moment from 'moment'
 import { useIsFocused } from '@react-navigation/native'
+import { Icon } from 'react-native-elements'
 
 export default function BayarDetail({ navigation, route }) {
     const item = route.params;
@@ -42,7 +43,7 @@ export default function BayarDetail({ navigation, route }) {
             flex: 1,
             backgroundColor: colors.black
         }}>
-            <MyHeader judul="Detail Pembayaran" />
+            <MyHeader judul="Detail Pembayaran" onPress={() => navigation.goBack()} />
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{
@@ -153,6 +154,12 @@ export default function BayarDetail({ navigation, route }) {
                                     <Text style={{
                                         fontFamily: fonts.secondary[800],
                                     }}>{new Intl.NumberFormat().format(item.nominal)}</Text>
+                                </View>
+                                <View style={{
+                                    paddingHorizontal: 5,
+                                }}>
+                                    {item.cek > 0 && <Icon type='ionicon' name='checkmark-circle' color={colors.success} size={12} />}
+                                    {item.cek == 0 && <Icon type='ionicon' name='time' color={colors.danger} size={12} />}
                                 </View>
 
                             </View>
