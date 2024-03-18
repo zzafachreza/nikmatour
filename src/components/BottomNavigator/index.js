@@ -88,9 +88,9 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
         } else if (label === 'Royalti') {
           iconName = 'ribbon-outline';
           Newlabel = 'Royalti';
-        } else if (label === 'Notifikasi') {
-          iconName = 'notifications-outline';
-          Newlabel = 'Notifikasi';
+        } else if (label === 'TarikSaldo') {
+          iconName = 'file-tray-full-outline';
+          Newlabel = 'Tarik Saldo';
         } else if (label === 'Logout') {
           iconName = 'log-out-outline';
           Newlabel = 'Logout';

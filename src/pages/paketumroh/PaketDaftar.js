@@ -17,12 +17,21 @@ export default function PaketDaftar({ navigation, route }) {
     const [kirim, setKirim] = useState({
         fid_paket: item.id,
         input_by: user.id_pengguna,
-        tipe: item.paket,
+        tipe: item.tipe,
         level: user.level,
         ref_pengguna: user.ref_pengguna,
         fid_jamaah: '',
         fid_tambahan: '',
+        paspor: 0,
         addon: 0,
+        uproom: 0,
+        uphotel: 0,
+        lainnya: 0,
+        desc_paspor: '',
+        desc_addon: '',
+        desc_uproom: '',
+        desc_uphotel: '',
+        desc_lainnya: '',
         diskon: 0,
         total: item.harga_paket,
     });
@@ -129,12 +138,86 @@ export default function PaketDaftar({ navigation, route }) {
                         })
                     }} data={jamaah} />
                     <MyGap jarak={10} />
-                    <MyPicker label="Pilih Tambahan / AddOn" data={tambahan} onValueChange={x => {
+                    <MyPicker label="+ Paspor" data={tambahan} onValueChange={x => {
+                        setKirim({
+                            ...kirim,
+                            fid_tambahan: x.split("#")[0],
+                            paspor: parseFloat(x.split("#")[1]),
+                            desc_paspor: x.split("#")[2],
+                            total: parseFloat(item.harga_paket) +
+                                parseFloat(kirim.addon) +
+                                parseFloat(kirim.uproom) +
+                                parseFloat(kirim.uphotel) +
+                                parseFloat(kirim.lainnya) +
+                                parseFloat(x.split("#")[1])
+                        });
+
+
+                    }} />
+                    <MyGap jarak={10} />
+                    <MyPicker label="+ Add on" data={tambahan} onValueChange={x => {
                         setKirim({
                             ...kirim,
                             fid_tambahan: x.split("#")[0],
                             addon: parseFloat(x.split("#")[1]),
-                            total: parseFloat(item.harga_paket) + parseFloat(x.split("#")[1])
+                            desc_addon: x.split("#")[2],
+                            total: parseFloat(item.harga_paket) +
+                                parseFloat(kirim.paspor) +
+                                parseFloat(kirim.uproom) +
+                                parseFloat(kirim.uphotel) +
+                                parseFloat(kirim.lainnya) +
+                                parseFloat(x.split("#")[1])
+                        });
+
+
+                    }} />
+                    <MyGap jarak={10} />
+                    <MyPicker label="+ Upgrade Room" data={tambahan} onValueChange={x => {
+                        setKirim({
+                            ...kirim,
+                            fid_tambahan: x.split("#")[0],
+                            uproom: parseFloat(x.split("#")[1]),
+                            desc_uproom: x.split("#")[2],
+                            total: parseFloat(item.harga_paket) +
+                                parseFloat(kirim.addon) +
+                                parseFloat(kirim.paspor) +
+                                parseFloat(kirim.uphotel) +
+                                parseFloat(kirim.lainnya) +
+                                parseFloat(x.split("#")[1])
+                        });
+
+
+                    }} />
+                    <MyGap jarak={10} />
+                    <MyPicker label="+ Upgrade Hotel" data={tambahan} onValueChange={x => {
+                        setKirim({
+                            ...kirim,
+                            fid_tambahan: x.split("#")[0],
+                            uphotel: parseFloat(x.split("#")[1]),
+                            desc_uphotel: x.split("#")[2],
+                            total: parseFloat(item.harga_paket) +
+                                parseFloat(kirim.addon) +
+                                parseFloat(kirim.paspor) +
+                                parseFloat(kirim.uproom) +
+                                parseFloat(kirim.lainnya) +
+                                parseFloat(x.split("#")[1])
+                        });
+
+
+                    }} />
+                    <MyGap jarak={10} />
+                    <MyPicker label="+ Tambahan Lain" data={tambahan} onValueChange={x => {
+                        setKirim({
+                            ...kirim,
+                            fid_tambahan: x.split("#")[0],
+                            lainnya: parseFloat(x.split("#")[1]),
+                            desc_lainnya: x.split("#")[2],
+                            total: parseFloat(item.harga_paket) +
+                                parseFloat(kirim.addon) +
+                                parseFloat(kirim.paspor) +
+                                parseFloat(kirim.uphotel) +
+                                parseFloat(kirim.uproom) +
+                                parseFloat(x.split("#")[1])
                         });
 
 
@@ -174,14 +257,86 @@ export default function PaketDaftar({ navigation, route }) {
                             color: colors.white,
                             fontSize: MyDimensi / 4,
                             flex: 1,
-                        }}>Tambahan / Addon</Text>
+                        }}>Paspor</Text>
                         <Text style={{
                             flex: 1,
                             fontFamily: fonts.secondary[400],
                             fontSize: MyDimensi / 3,
                             color: colors.white,
                             textAlign: 'right'
+                        }}>{kirim.paspor > 0 ? '+' : ''} {new Intl.NumberFormat().format(kirim.paspor)}</Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            color: colors.white,
+                            fontSize: MyDimensi / 4,
+                            flex: 1,
+                        }}>Add on</Text>
+                        <Text style={{
+                            flex: 1,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: MyDimensi / 3,
+                            color: colors.white,
+                            textAlign: 'right',
                         }}>{kirim.addon > 0 ? '+' : ''} {new Intl.NumberFormat().format(kirim.addon)}</Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            color: colors.white,
+                            fontSize: MyDimensi / 4,
+                            flex: 1,
+                        }}>Upgrade Room</Text>
+                        <Text style={{
+                            flex: 1,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: MyDimensi / 3,
+                            color: colors.white,
+                            textAlign: 'right'
+                        }}>{kirim.uproom > 0 ? '+' : ''} {new Intl.NumberFormat().format(kirim.uproom)}</Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            color: colors.white,
+                            fontSize: MyDimensi / 4,
+                            flex: 1,
+                        }}>Upgrade Hotel</Text>
+                        <Text style={{
+                            flex: 1,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: MyDimensi / 3,
+                            color: colors.white,
+                            textAlign: 'right'
+                        }}>{kirim.uphotel > 0 ? '+' : ''} {new Intl.NumberFormat().format(kirim.uphotel)}</Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            color: colors.white,
+                            fontSize: MyDimensi / 4,
+                            flex: 1,
+                        }}>Tambahan lainnya</Text>
+                        <Text style={{
+                            flex: 1,
+                            fontFamily: fonts.secondary[400],
+                            fontSize: MyDimensi / 3,
+                            color: colors.white,
+                            textAlign: 'right'
+                        }}>{kirim.lainnya > 0 ? '+' : ''} {new Intl.NumberFormat().format(kirim.lainnya)}</Text>
                     </View>
                     <View style={{
                         flexDirection: 'row',

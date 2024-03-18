@@ -42,6 +42,8 @@ import BayarDetail from './pembayaran/BayarDetail';
 import BayarAdd from './pembayaran/BayarAdd';
 import JamaahDetail from './DataJamaah/JamaahDetail';
 import JamaahAgen from './DataJamaah/JamaahAgen';
+import TarikSaldo from './TarikSaldo';
+import TarikSaldoDetail from './TarikSaldo/TarikSaldoDetail';
 
 
 
@@ -100,6 +102,8 @@ export {
   AsupanAsi,
   StatusGizi,
   StatusGiziHasil,
-  JamaahDetail
+  JamaahDetail,
+  TarikSaldo,
+  TarikSaldoDetail
 
 };

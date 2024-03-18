@@ -32,7 +32,7 @@ export default function Pembayaran({ navigation, route }) {
       console.log(res.data);
       let byr = 0
       res.data.map(i => {
-        byr += parseFloat(i.bayar);
+        byr += i.bayar !== null ? parseFloat(i.bayar) : 0;
       });
       setTotal(byr);
       setData(res.data);

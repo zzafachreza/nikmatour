@@ -46,6 +46,8 @@ import {
   BayarAdd,
   JamaahDetail,
   JamaahAgen,
+  TarikSaldo,
+  TarikSaldoDetail,
 
 
 } from '../pages';
@@ -64,6 +66,7 @@ const MainApp = () => {
     <Tab.Navigator initialRouteName='Produk' tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Royalti" component={Royalti} />
+      <Tab.Screen name="TarikSaldo" component={TarikSaldo} />
       <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
@@ -82,6 +85,14 @@ export default function Router() {
       <Stack.Screen
         name="PaketDetail"
         component={PaketDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="TarikSaldoDetail"
+        component={TarikSaldoDetail}
         options={{
           headerShown: false,
         }}
