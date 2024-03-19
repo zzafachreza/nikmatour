@@ -183,6 +183,8 @@ export default function Login({ navigation }) {
 
           <MyGap jarak={40} />
           <MyGap jarak={0} />
+
+          {loading && <ActivityIndicator size="large" color={colors.black} />}
           {!loading &&
 
 

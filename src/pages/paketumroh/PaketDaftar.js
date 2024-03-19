@@ -93,7 +93,8 @@ export default function PaketDaftar({ navigation, route }) {
             setTambahan(res.data);
 
             axios.post(apiURL + 'jamaah', {
-                input_by: user.id_pengguna
+                input_by: user.id_pengguna,
+                level: user.level,
             }).then(resj => {
                 console.log('jamaah', resj.data.data[0].value)
                 setJamaah(resj.data.data);

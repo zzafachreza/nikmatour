@@ -97,17 +97,77 @@ export default function BayarDetail({ navigation, route }) {
                         alignItems: 'center'
                     }}>
                         <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
-                            Tambahan/addon{'\n'}
+                            Paspor{'\n'}
                             <Text style={{
                                 fontFamily: fonts.secondary[400],
                                 fontSize: MyDimensi / 5
-                            }}>{item.deskripsi}</Text>
+                            }}>{item.desc_paspor}</Text>
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[400], ontSize: MyDimensi / 4 }}>
+                            {item.paspor > 0 ? '+' : ''} {new Intl.NumberFormat().format(item.paspor)}
+                        </Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
+                            addon{'\n'}
+                            <Text style={{
+                                fontFamily: fonts.secondary[400],
+                                fontSize: MyDimensi / 5
+                            }}>{item.desc_addon}</Text>
                         </Text>
                         <Text style={{ fontFamily: fonts.secondary[400], ontSize: MyDimensi / 4 }}>
                             {item.addon > 0 ? '+' : ''} {new Intl.NumberFormat().format(item.addon)}
                         </Text>
                     </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
+                            Upgrade Room{'\n'}
+                            <Text style={{
+                                fontFamily: fonts.secondary[400],
+                                fontSize: MyDimensi / 5
+                            }}>{item.desc_uproom}</Text>
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[400], ontSize: MyDimensi / 4 }}>
+                            {item.uproom > 0 ? '+' : ''} {new Intl.NumberFormat().format(item.uproom)}
+                        </Text>
+                    </View>
 
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
+                            Upgrade Hotel{'\n'}
+                            <Text style={{
+                                fontFamily: fonts.secondary[400],
+                                fontSize: MyDimensi / 5
+                            }}>{item.desc_uphotel}</Text>
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[400], ontSize: MyDimensi / 4 }}>
+                            {item.uphotel > 0 ? '+' : ''} {new Intl.NumberFormat().format(item.uphotel)}
+                        </Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
+                            Tambahan Lainnya{'\n'}
+                            <Text style={{
+                                fontFamily: fonts.secondary[400],
+                                fontSize: MyDimensi / 5
+                            }}>{item.desc_lainnya}</Text>
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[400], ontSize: MyDimensi / 4 }}>
+                            {item.lainnya > 0 ? '+' : ''} {new Intl.NumberFormat().format(item.lainnya)}
+                        </Text>
+                    </View>
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center'

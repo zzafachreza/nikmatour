@@ -23,6 +23,7 @@ export default function TarikSaldo({ navigation, route }) {
     const [data, setData] = useState({
         fee: 0,
         royalti: 0,
+        tarik: 0,
         total: 0,
     });
     const [total, setTotal] = useState(0);
@@ -71,6 +72,8 @@ export default function TarikSaldo({ navigation, route }) {
                         subTitle: res.data.message,
                         style: 'success',
                         cancellable: true
+                    }, callback => {
+                        navigation.navigate('TarikSaldoDetail', user)
                     });
                     setKirim({
                         ...kirim,
@@ -142,6 +145,47 @@ export default function TarikSaldo({ navigation, route }) {
                         fontSize: MyDimensi / 4,
                         flex: 1,
                     }}>Total Saldo Saya</Text>
+                    <Text style={{
+                        flex: 1,
+                        fontFamily: fonts.secondary[800],
+                        fontSize: MyDimensi / 2.5,
+                        color: colors.white,
+                        textAlign: 'right'
+                    }}>{new Intl.NumberFormat().format(parseFloat(data.fee) + parseFloat(data.royalti))}</Text>
+                </View>
+                <View style={{
+                    marginTop: 10,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                }}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        color: colors.white,
+                        fontSize: MyDimensi / 4,
+                        flex: 1,
+                    }}>Saldo Sudah Diterima</Text>
+                    <Text style={{
+                        flex: 1,
+                        fontFamily: fonts.secondary[400],
+                        fontSize: MyDimensi / 3,
+                        color: colors.white,
+                        textAlign: 'right'
+                    }}>-{new Intl.NumberFormat().format(data.tarik)}</Text>
+                </View>
+                <View style={{
+                    marginTop: 10,
+                    borderBottomWidth: 1,
+                    paddingBottom: 10,
+                    borderBottomColor: colors.white,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                }}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        color: colors.white,
+                        fontSize: MyDimensi / 4,
+                        flex: 1,
+                    }}>Total Saldo dapat ditarik</Text>
                     <Text style={{
                         flex: 1,
                         fontFamily: fonts.secondary[800],

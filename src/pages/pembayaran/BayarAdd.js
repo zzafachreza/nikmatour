@@ -14,6 +14,7 @@ import moment from 'moment'
 export default function BayarAdd({ navigation, route }) {
     const item = route.params;
     console.log(item);
+    const [loading, setLoading] = useState(false);
 
     const sendServer = () => {
         console.log(kirim);
@@ -26,8 +27,12 @@ export default function BayarAdd({ navigation, route }) {
             showMessage({
                 message: 'Nominal bayar Wajib di isi !'
             })
+        } else if (kirim.catatan.length == 0) {
+            showMessage({
+                message: 'Harap masukan catatan'
+            })
         } else {
-
+            setLoading(true)
             axios.post(apiURL + 'insert_bayar', kirim).then(res => {
                 if (res.data.status == 404) {
                     SweetAlert.showAlertWithOptions({
@@ -46,6 +51,8 @@ export default function BayarAdd({ navigation, route }) {
                     }, callback => navigation.goBack());
 
                 }
+            }).finally(() => {
+                setLoading(false)
             })
 
         }
@@ -55,6 +62,7 @@ export default function BayarAdd({ navigation, route }) {
         fid_daftar: item.id,
         tanggal_bayar: moment().format('YYYY-MM-DD'),
         nominal: '',
+        catatan: '',
         foto_bayar: 'https://zavalabs.com/nogambar.jpg',
     })
 
@@ -74,7 +82,7 @@ export default function BayarAdd({ navigation, route }) {
                     padding: 10,
                     marginHorizontal: 20,
                 }}>
-                    <View style={{
+                    {/* <View style={{
                         flexDirection: 'row',
                         alignItems: 'center'
                     }}>
@@ -84,8 +92,8 @@ export default function BayarAdd({ navigation, route }) {
                         <Text style={{ fontFamily: fonts.secondary[600], ontSize: MyDimensi / 4 }}>
                             {new Intl.NumberFormat().format(item.harga_paket)}
                         </Text>
-                    </View>
-                    <View style={{
+                    </View> */}
+                    {/* <View style={{
                         flexDirection: 'row',
                         alignItems: 'center'
                     }}>
@@ -99,7 +107,7 @@ export default function BayarAdd({ navigation, route }) {
                         <Text style={{ fontFamily: fonts.secondary[400], ontSize: MyDimensi / 4 }}>
                             {item.addon > 0 ? '+' : ''} {new Intl.NumberFormat().format(item.addon)}
                         </Text>
-                    </View>
+                    </View> */}
 
                     <View style={{
                         flexDirection: 'row',
@@ -166,8 +174,14 @@ export default function BayarAdd({ navigation, route }) {
                             }} />
                         </View>
                     </TouchableWithoutFeedback>
+                    <MyGap jarak={10} />
+                    <MyInput label="Catatan (DP / terimin / pelunasan)" onChangeText={x => setKirim({
+                        ...kirim,
+                        catatan: x
+                    })} />
                     <MyGap jarak={20} />
-                    <MyButton warna={colors.primary} title="Simpan Pembayaran" onPress={sendServer} />
+                    {!loading && <MyButton warna={colors.primary} title="Simpan Pembayaran" onPress={sendServer} />}
+                    {loading && <ActivityIndicator size="large" color={colors.primary} />}
                 </View>
             </ScrollView>
         </SafeAreaView>

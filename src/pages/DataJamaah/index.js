@@ -18,7 +18,8 @@ export default function DataJamaah({ navigation, route }) {
 
   const __getJamaah = () => {
     axios.post(apiURL + 'jamaah', {
-      input_by: user.id_pengguna
+      input_by: user.id_pengguna,
+      level: user.level,
     }).then(res => {
       setJamaah(res.data.data);
 

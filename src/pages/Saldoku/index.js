@@ -27,12 +27,12 @@ export default function Saldoku({ navigation, route }) {
 
   const __getDaftar = () => {
     axios.post(apiURL + 'daftar', {
-      input_by: user.id_pengguna
+      input_by: user.id_pengguna,
     }).then(res => {
       console.log(res.data);
       let byr = 0
       res.data.map(i => {
-        byr += parseFloat(i.fee);
+        byr += i.fee !== null ? parseFloat(i.fee) : 0;
       });
       setTotal(byr);
       setData(res.data);

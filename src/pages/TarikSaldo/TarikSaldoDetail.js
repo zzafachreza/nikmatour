@@ -133,7 +133,7 @@ export default function TarikSaldoDetail({ navigation, route }) {
                                         flex: 1,
                                         fontFamily: fonts.secondary[800],
                                         fontSize: MyDimensi / 4
-                                    }}>Total Fee</Text>
+                                    }}>Total Tarik Dana</Text>
                                     <Text style={{
                                         flex: 1,
                                         textAlign: 'right',
