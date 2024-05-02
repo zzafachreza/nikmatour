@@ -173,6 +173,39 @@ export default function BayarDetail({ navigation, route }) {
                         alignItems: 'center'
                     }}>
                         <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
+                            Diskon
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[400], ontSize: MyDimensi / 4 }}>
+                            {item.diskon > 0 ? '-' : ''} {new Intl.NumberFormat().format(item.diskon)}
+                        </Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
+                            Total Transaksi
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 3 }}>
+                            {new Intl.NumberFormat().format(item.total_transaksi)}
+                        </Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
+                            Pajak
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[400], ontSize: MyDimensi / 4 }}>
+                            + {new Intl.NumberFormat().format(item.pajak)}
+                        </Text>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 4, flex: 1, }}>
                             Total Biaya
                         </Text>
                         <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 2.5 }}>
