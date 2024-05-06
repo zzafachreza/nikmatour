@@ -194,15 +194,6 @@ export default function PaketDaftar({ navigation, route }) {
                             fid_tambahan: x.split("#")[0],
                             uproom: parseFloat(x.split("#")[1]),
                             desc_uproom: x.split("#")[2],
-                            pajak: (
-                                parseFloat(item.harga_paket) +
-                                parseFloat(kirim.addon) +
-                                parseFloat(kirim.paspor) +
-                                parseFloat(kirim.uphotel) +
-                                parseFloat(kirim.lainnya) +
-                                parseFloat(x.split("#")[1])
-                            )
-                                * 0.0055,
                             total: parseFloat(item.harga_paket) +
                                 parseFloat(kirim.addon) +
                                 parseFloat(kirim.paspor) +
@@ -220,15 +211,6 @@ export default function PaketDaftar({ navigation, route }) {
                             fid_tambahan: x.split("#")[0],
                             uphotel: parseFloat(x.split("#")[1]),
                             desc_uphotel: x.split("#")[2],
-                            pajak: (
-                                parseFloat(item.harga_paket) +
-                                parseFloat(kirim.addon) +
-                                parseFloat(kirim.paspor) +
-                                parseFloat(kirim.uproom) +
-                                parseFloat(kirim.lainnya) +
-                                parseFloat(x.split("#")[1])
-                            )
-                                * 0.0055,
                             total: parseFloat(item.harga_paket) +
                                 parseFloat(kirim.addon) +
                                 parseFloat(kirim.paspor) +
@@ -246,15 +228,6 @@ export default function PaketDaftar({ navigation, route }) {
                             fid_tambahan: x.split("#")[0],
                             lainnya: parseFloat(x.split("#")[1]),
                             desc_lainnya: x.split("#")[2],
-                            pajak: (
-                                parseFloat(item.harga_paket) +
-                                parseFloat(kirim.addon) +
-                                parseFloat(kirim.paspor) +
-                                parseFloat(kirim.uphotel) +
-                                parseFloat(kirim.uproom) +
-                                parseFloat(x.split("#")[1])
-                            )
-                                * 0.0055,
                             total: parseFloat(item.harga_paket) +
                                 parseFloat(kirim.addon) +
                                 parseFloat(kirim.paspor) +
@@ -433,7 +406,7 @@ export default function PaketDaftar({ navigation, route }) {
                             fontSize: MyDimensi / 3,
                             color: colors.white,
                             textAlign: 'right'
-                        }}>{new Intl.NumberFormat().format((kirim.total - kirim.diskon) * 0.0055)}</Text>
+                        }}>{new Intl.NumberFormat().format(kirim.pajak)}</Text>
                     </View>
                     <View style={{
                         flexDirection: 'row',
@@ -451,7 +424,7 @@ export default function PaketDaftar({ navigation, route }) {
                             fontSize: MyDimensi / 2.5,
                             color: colors.white,
                             textAlign: 'right'
-                        }}>{new Intl.NumberFormat().format((kirim.total - kirim.diskon) + (kirim.total - kirim.diskon) * 0.0055)}</Text>
+                        }}>{new Intl.NumberFormat().format((kirim.total - kirim.diskon) + kirim.pajak)}</Text>
                     </View>
 
                     <MyGap jarak={20} />
