@@ -1,4 +1,4 @@
-import { View, Text, TouchableWithoutFeedback, Image, ActivityIndicator, StyleSheet, SafeAreaView } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Image, ActivityIndicator, StyleSheet, SafeAreaView, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { MyButton, MyButtonSecond, MyCalendar, MyGap, MyHeader, MyInput, MyInputSecond, MyPicker } from '../../components'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -27,33 +27,46 @@ export default function BayarAdd({ navigation, route }) {
             showMessage({
                 message: 'Nominal bayar Wajib di isi !'
             })
+        } else if (parseFloat(kirim.nominal) <= 10000) {
+            showMessage({
+                message: 'Nominal bayar minimal 10.000'
+            })
         } else if (kirim.catatan.length == 0) {
             showMessage({
                 message: 'Harap masukan catatan'
             })
         } else {
-            setLoading(true)
-            axios.post(apiURL + 'insert_bayar', kirim).then(res => {
-                if (res.data.status == 404) {
-                    SweetAlert.showAlertWithOptions({
-                        title: MYAPP,
-                        subTitle: res.data.message,
-                        style: 'error',
-                        cancellable: true
-                    });
+            Alert.alert(MYAPP, 'Apakah kamu yakin akan simpan ini ?', [
+                {
+                    text: 'CEK ULANG'
+                }, {
+                    text: 'SIMPAN',
+                    onPress: () => {
+                        setLoading(true)
+                        axios.post(apiURL + 'insert_bayar', kirim).then(res => {
+                            if (res.data.status == 404) {
+                                SweetAlert.showAlertWithOptions({
+                                    title: MYAPP,
+                                    subTitle: res.data.message,
+                                    style: 'error',
+                                    cancellable: true
+                                });
 
-                } else {
-                    SweetAlert.showAlertWithOptions({
-                        title: MYAPP,
-                        subTitle: res.data.message,
-                        style: 'success',
-                        cancellable: true
-                    }, callback => navigation.goBack());
+                            } else {
+                                SweetAlert.showAlertWithOptions({
+                                    title: MYAPP,
+                                    subTitle: res.data.message,
+                                    style: 'success',
+                                    cancellable: true
+                                }, callback => navigation.goBack());
 
+                            }
+                        }).finally(() => {
+                            setLoading(false)
+                        })
+                    }
                 }
-            }).finally(() => {
-                setLoading(false)
-            })
+            ])
 
         }
     }
@@ -175,7 +188,7 @@ export default function BayarAdd({ navigation, route }) {
                         </View>
                     </TouchableWithoutFeedback>
                     <MyGap jarak={10} />
-                    <MyInput label="Catatan (DP / terimin / pelunasan)" onChangeText={x => setKirim({
+                    <MyInput label="Catatan (DP / Termin / Pelunasan)" onChangeText={x => setKirim({
                         ...kirim,
                         catatan: x
                     })} />

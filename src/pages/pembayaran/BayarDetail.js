@@ -1,4 +1,4 @@
-import { View, Text, TouchableWithoutFeedback, Image, ActivityIndicator, StyleSheet, SafeAreaView, FlatList } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Image, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, Linking, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { MyButton, MyButtonSecond, MyGap, MyHeader, MyInput, MyInputSecond, MyPicker } from '../../components'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -214,6 +214,12 @@ export default function BayarDetail({ navigation, route }) {
                     </View>
                     <MyGap jarak={10} />
                     <MyButton warna={colors.primary} title="Update Pembayaran" onPress={() => navigation.navigate('BayarAdd', item)} />
+                    <MyGap jarak={10} />
+                    <MyButton warna={colors.danger} Icons="print-outline" title="Print Invoice" onPress={() => {
+                        console.log(item);
+
+                        Linking.openURL(`https://nikmatour.okeadmin.com/paket/print/${item.id_paket}/${item.id_jamaah}`)
+                    }} />
 
 
                 </View>
@@ -242,18 +248,35 @@ export default function BayarDetail({ navigation, route }) {
                                     <Text style={{
                                         fontFamily: fonts.secondary[400],
                                     }}>{moment(item.tanggal_bayar).format('DD MMMM YYYY')}</Text>
+
                                 </View>
                                 <View>
                                     <Text style={{
                                         fontFamily: fonts.secondary[800],
                                     }}>{new Intl.NumberFormat().format(item.nominal)}</Text>
+
                                 </View>
+
                                 <View style={{
                                     paddingHorizontal: 5,
                                 }}>
+
                                     {item.cek > 0 && <Icon type='ionicon' name='checkmark-circle' color={colors.success} size={12} />}
+
+
                                     {item.cek == 0 && <Icon type='ionicon' name='time' color={colors.danger} size={12} />}
                                 </View>
+
+                                {item.cek > 0 && <TouchableOpacity onPress={() => {
+
+                                    Linking.openURL(`https://nikmatour.okeadmin.com/bayar/print/${item.id_bayar}`)
+                                }} style={{
+                                    backgroundColor: colors.danger,
+                                    width: 40,
+                                    borderRadius: 5,
+
+                                }}>
+                                    <Icon type='ionicon' name='print' size={20} color={colors.white} /></TouchableOpacity>}
 
                             </View>
                         )

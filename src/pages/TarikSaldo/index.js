@@ -89,7 +89,7 @@ export default function TarikSaldo({ navigation, route }) {
     return (
         <View style={{ flex: 1, backgroundColor: "black" }}>
             {/* HEADERS */}
-            <MyHeader onPress={MyBack} judul='Tarik Salod' />
+            <MyHeader onPress={MyBack} judul='Tarik Saldo' />
 
             {/* MAIN */}
             <ScrollView style={{ padding: 20, }}>
