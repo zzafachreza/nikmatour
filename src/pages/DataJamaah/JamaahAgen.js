@@ -11,6 +11,7 @@ import {
     Switch,
     SafeAreaView,
     TouchableOpacity,
+    PermissionsAndroid,
     ActivityIndicator,
     Alert,
 } from 'react-native';
@@ -119,7 +120,30 @@ export default function JamaahAgen({ navigation, route }) {
         }
     };
 
-
+    const requestCameraPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                {
+                    title: 'Akses Kamera',
+                    message: 'Izinkan aplikasi untuk akses kamera',
+                    buttonNeutral: 'Nanti',
+                    buttonNegative: 'Tolak',
+                    buttonPositive: 'Izinkan',
+                },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('You can use the camera');
+            } else {
+                console.log('Camera permission denied');
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+    useEffect(() => {
+        requestCameraPermission();
+    }, [])
 
     return (
 
@@ -217,22 +241,50 @@ export default function JamaahAgen({ navigation, route }) {
                         color: colors.white,
                         marginBottom: 10,
                     }}>Upload Foto KTP</Text>
-                    <TouchableWithoutFeedback onPress={() => {
-                        launchImageLibrary({
-                            includeBase64: true,
-                            quality: 1,
-                            mediaType: "photo",
-                            maxWidth: 500,
-                            maxHeight: 500
-                        }, response => {
-                            // console.log('All Response = ', response);
+                    <TouchableWithoutFeedback onPress={() => Alert.alert(MYAPP, 'Pilih ambil gambar', [
+                        {
+                            'text': 'cancel'
+                        },
+                        {
+                            text: 'GALERI',
+                            onPress: () => {
+                                launchImageLibrary({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
 
-                            setData({
-                                ...data,
-                                foto_ktpagen: `data:${response.type};base64, ${response.base64}`,
-                            });
-                        });
-                    }}>
+                                    setData({
+                                        ...data,
+                                        foto_ktpagen: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        },
+                        {
+                            text: 'KAMERA',
+                            onPress: () => {
+                                launchCamera({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
+
+
+                                    setData({
+                                        ...data,
+                                        foto_ktpagen: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        }
+                    ])}>
                         <View style={{
                             backgroundColor: colors.white,
                             borderRadius: 10,

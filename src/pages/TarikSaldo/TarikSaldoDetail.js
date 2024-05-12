@@ -100,7 +100,7 @@ export default function TarikSaldoDetail({ navigation, route }) {
                                         flex: 1,
                                         fontFamily: fonts.secondary[600],
                                         fontSize: MyDimensi / 4,
-                                        color: item.status_tarik == 'Dalam Proses' ? colors.warning : colors.success,
+                                        color: item.status_tarik == 'Dalam Proses' ? colors.warning : item.status_tarik == 'Tolak Penarikan Fee' ? colors.danger : colors.success,
                                     }}>{item.status_tarik}</Text>
                                 </View>
 

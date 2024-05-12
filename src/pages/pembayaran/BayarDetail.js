@@ -211,6 +211,18 @@ export default function BayarDetail({ navigation, route }) {
                         <Text style={{ fontFamily: fonts.secondary[800], fontSize: MyDimensi / 2.5 }}>
                             {new Intl.NumberFormat().format(item.total)}
                         </Text>
+
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[600], fontSize: MyDimensi / 4, flex: 1, }}>
+                            {(item.total - item.bayar) > 0 ? 'Kurang Bayar' : 'Lebih Bayar'}
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[600], fontSize: MyDimensi / 3 }}>
+                            {new Intl.NumberFormat().format((item.total - item.bayar) > 0 ? (item.total - item.bayar) : Math.abs(item.total - item.bayar))}
+                        </Text>
                     </View>
                     <MyGap jarak={10} />
                     <MyButton warna={colors.primary} title="Update Pembayaran" onPress={() => navigation.navigate('BayarAdd', item)} />

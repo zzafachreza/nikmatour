@@ -1,4 +1,4 @@
-import { View, Text, TouchableWithoutFeedback, Image, ActivityIndicator, StyleSheet, SafeAreaView, Alert } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Image, ActivityIndicator, StyleSheet, SafeAreaView, Alert, PermissionsAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { MyButton, MyButtonSecond, MyCalendar, MyGap, MyHeader, MyInput, MyInputSecond, MyPicker } from '../../components'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -12,6 +12,30 @@ import { showMessage } from 'react-native-flash-message'
 import moment from 'moment'
 
 export default function BayarAdd({ navigation, route }) {
+
+    const requestCameraPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                {
+                    title: 'Akses Kamera',
+                    message: 'Izinkan aplikasi untuk akses kamera',
+                    buttonNeutral: 'Nanti',
+                    buttonNegative: 'Tolak',
+                    buttonPositive: 'Izinkan',
+                },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('You can use the camera');
+            } else {
+                console.log('Camera permission denied');
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+
+
     const item = route.params;
     console.log(item);
     const [loading, setLoading] = useState(false);
@@ -79,6 +103,10 @@ export default function BayarAdd({ navigation, route }) {
         foto_bayar: 'https://zavalabs.com/nogambar.jpg',
     })
 
+    useEffect(() => {
+        requestCameraPermission();
+    }, [])
+
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -134,6 +162,18 @@ export default function BayarAdd({ navigation, route }) {
                         </Text>
                     </View>
 
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{ fontFamily: fonts.secondary[600], fontSize: MyDimensi / 4, flex: 1, }}>
+                            Kurang Bayar
+                        </Text>
+                        <Text style={{ fontFamily: fonts.secondary[600], fontSize: MyDimensi / 3 }}>
+                            {new Intl.NumberFormat().format((item.total - item.bayar) - kirim.nominal)}
+                        </Text>
+                    </View>
+
 
 
                 </View>
@@ -157,22 +197,51 @@ export default function BayarAdd({ navigation, route }) {
                         color: colors.white,
                         marginBottom: 10,
                     }}>Upload bukti transfer</Text>
-                    <TouchableWithoutFeedback onPress={() => {
-                        launchImageLibrary({
-                            includeBase64: true,
-                            quality: 1,
-                            mediaType: "photo",
-                            maxWidth: 500,
-                            maxHeight: 500
-                        }, response => {
-                            // console.log('All Response = ', response);
+                    <TouchableWithoutFeedback
+                        onPress={() => Alert.alert(MYAPP, 'Pilih ambil gambar', [
+                            {
+                                'text': 'cancel'
+                            },
+                            {
+                                text: 'GALERI',
+                                onPress: () => {
+                                    launchImageLibrary({
+                                        includeBase64: true,
+                                        quality: 1,
+                                        mediaType: "photo",
+                                        maxWidth: 1000,
+                                        maxHeight: 1000
+                                    }, response => {
+                                        // console.log('All Response = ', response);
 
-                            setKirim({
-                                ...kirim,
-                                foto_bayar: `data:${response.type};base64, ${response.base64}`,
-                            });
-                        });
-                    }}>
+                                        setKirim({
+                                            ...kirim,
+                                            foto_bayar: `data:${response.type};base64, ${response.base64}`,
+                                        });
+                                    });
+                                }
+                            },
+                            {
+                                text: 'KAMERA',
+                                onPress: () => {
+                                    launchCamera({
+                                        includeBase64: true,
+                                        quality: 1,
+                                        mediaType: "photo",
+                                        maxWidth: 1000,
+                                        maxHeight: 1000
+                                    }, response => {
+                                        // console.log('All Response = ', response);
+
+                                        setKirim({
+                                            ...kirim,
+                                            foto_bayar: `data:${response.type};base64, ${response.base64}`,
+                                        });
+                                    });
+                                }
+                            }
+                        ])}
+                    >
                         <View style={{
                             backgroundColor: colors.white,
                             borderRadius: 10,

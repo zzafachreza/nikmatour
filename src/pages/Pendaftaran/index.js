@@ -1,4 +1,4 @@
-import { View, Text, TouchableWithoutFeedback, Image, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Image, ActivityIndicator, PermissionsAndroid, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { MyButton, MyButtonSecond, MyGap, MyHeader, MyInput, MyInputSecond, MyPicker } from '../../components'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -10,6 +10,31 @@ import { MyDimensi, colors, fonts } from '../../utils'
 import SweetAlert from 'react-native-sweet-alert';
 import { showMessage } from 'react-native-flash-message'
 export default function Pendaftaran({ navigation, route }) {
+
+    const requestCameraPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                {
+                    title: 'Akses Kamera',
+                    message: 'Izinkan aplikasi untuk akses kamera',
+                    buttonNeutral: 'Nanti',
+                    buttonNegative: 'Tolak',
+                    buttonPositive: 'Izinkan',
+                },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('You can use the camera');
+            } else {
+                console.log('Camera permission denied');
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+
+
+
     const MyBack = () => {
         navigation.goBack();
     }
@@ -33,6 +58,7 @@ export default function Pendaftaran({ navigation, route }) {
 
     useEffect(() => {
         __getPengguna();
+        requestCameraPermission();
     }, []);
 
     const __sendServer = () => {
@@ -123,22 +149,54 @@ export default function Pendaftaran({ navigation, route }) {
                     color: colors.white,
                     marginBottom: 10,
                 }}>Upload Foto KTP</Text>
-                <TouchableWithoutFeedback onPress={() => {
-                    launchImageLibrary({
-                        includeBase64: true,
-                        quality: 1,
-                        mediaType: "photo",
-                        maxWidth: 500,
-                        maxHeight: 500
-                    }, response => {
-                        // console.log('All Response = ', response);
+                <TouchableWithoutFeedback
 
-                        setKirim({
-                            ...kirim,
-                            foto_ktp: `data:${response.type};base64, ${response.base64}`,
-                        });
-                    });
-                }}>
+                    onPress={() => Alert.alert(MYAPP, 'Pilih ambil gambar', [
+                        {
+                            'text': 'cancel'
+                        },
+                        {
+                            text: 'GALERI',
+                            onPress: () => {
+                                launchImageLibrary({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
+
+                                    setKirim({
+                                        ...kirim,
+                                        foto_ktp: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        },
+                        {
+                            text: 'KAMERA',
+                            onPress: () => {
+                                launchCamera({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
+
+                                    setKirim({
+                                        ...kirim,
+                                        foto_ktp: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        }
+                    ])}
+
+
+                >
                     <View style={{
                         backgroundColor: colors.white,
                         borderRadius: 10,
@@ -164,22 +222,50 @@ export default function Pendaftaran({ navigation, route }) {
                     color: colors.white,
                     marginBottom: 10,
                 }}>Upload Foto Paspor</Text>
-                <TouchableWithoutFeedback onPress={() => {
-                    launchImageLibrary({
-                        includeBase64: true,
-                        quality: 1,
-                        mediaType: "photo",
-                        maxWidth: 500,
-                        maxHeight: 500
-                    }, response => {
-                        // console.log('All Response = ', response);
+                <TouchableWithoutFeedback
+                    onPress={() => Alert.alert(MYAPP, 'Pilih ambil gambar', [
+                        {
+                            'text': 'cancel'
+                        },
+                        {
+                            text: 'GALERI',
+                            onPress: () => {
+                                launchImageLibrary({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
 
-                        setKirim({
-                            ...kirim,
-                            foto_paspor: `data:${response.type};base64, ${response.base64}`,
-                        });
-                    });
-                }}>
+                                    setKirim({
+                                        ...kirim,
+                                        foto_paspor: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        },
+                        {
+                            text: 'KAMERA',
+                            onPress: () => {
+                                launchCamera({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
+
+                                    setKirim({
+                                        ...kirim,
+                                        foto_paspor: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        }
+                    ])}>
                     <View style={{
                         backgroundColor: colors.white,
                         borderRadius: 10,
@@ -201,22 +287,52 @@ export default function Pendaftaran({ navigation, route }) {
                     color: colors.white,
                     marginBottom: 10,
                 }}>Upload Foto Kartu Keluarga</Text>
-                <TouchableWithoutFeedback onPress={() => {
-                    launchImageLibrary({
-                        includeBase64: true,
-                        quality: 1,
-                        mediaType: "photo",
-                        maxWidth: 500,
-                        maxHeight: 500
-                    }, response => {
-                        // console.log('All Response = ', response);
+                <TouchableWithoutFeedback
 
-                        setKirim({
-                            ...kirim,
-                            foto_kk: `data:${response.type};base64, ${response.base64}`,
-                        });
-                    });
-                }}>
+                    onPress={() => Alert.alert(MYAPP, 'Pilih ambil gambar', [
+                        {
+                            'text': 'cancel'
+                        },
+                        {
+                            text: 'GALERI',
+                            onPress: () => {
+                                launchImageLibrary({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
+
+                                    setKirim({
+                                        ...kirim,
+                                        foto_kk: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        },
+                        {
+                            text: 'KAMERA',
+                            onPress: () => {
+                                launchCamera({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
+
+                                    setKirim({
+                                        ...kirim,
+                                        foto_kk: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        }
+                    ])}
+                >
                     <View style={{
                         backgroundColor: colors.white,
                         borderRadius: 10,
@@ -238,22 +354,51 @@ export default function Pendaftaran({ navigation, route }) {
                     color: colors.white,
                     marginBottom: 10,
                 }}>Upload Foto Buku Nikah / Ijazah / Akta lahir</Text>
-                <TouchableWithoutFeedback onPress={() => {
-                    launchImageLibrary({
-                        includeBase64: true,
-                        quality: 1,
-                        mediaType: "photo",
-                        maxWidth: 500,
-                        maxHeight: 500
-                    }, response => {
-                        // console.log('All Response = ', response);
+                <TouchableWithoutFeedback
+                    onPress={() => Alert.alert(MYAPP, 'Pilih ambil gambar', [
+                        {
+                            'text': 'cancel'
+                        },
+                        {
+                            text: 'GALERI',
+                            onPress: () => {
+                                launchImageLibrary({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
 
-                        setKirim({
-                            ...kirim,
-                            foto_tambahan: `data:${response.type};base64, ${response.base64}`,
-                        });
-                    });
-                }}>
+                                    setKirim({
+                                        ...kirim,
+                                        foto_tambahan: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        },
+                        {
+                            text: 'KAMERA',
+                            onPress: () => {
+                                launchCamera({
+                                    includeBase64: true,
+                                    quality: 1,
+                                    mediaType: "photo",
+                                    maxWidth: 1000,
+                                    maxHeight: 1000
+                                }, response => {
+                                    // console.log('All Response = ', response);
+
+                                    setKirim({
+                                        ...kirim,
+                                        foto_tambahan: `data:${response.type};base64, ${response.base64}`,
+                                    });
+                                });
+                            }
+                        }
+                    ])}
+                >
                     <View style={{
                         backgroundColor: colors.white,
                         borderRadius: 10,
@@ -277,22 +422,49 @@ export default function Pendaftaran({ navigation, route }) {
                     marginBottom: 10,
                 }}>Upload Foto Surat Keterangan
                 </Text>
-                <TouchableWithoutFeedback onPress={() => {
-                    launchImageLibrary({
-                        includeBase64: true,
-                        quality: 1,
-                        mediaType: "photo",
-                        maxWidth: 500,
-                        maxHeight: 500
-                    }, response => {
-                        // console.log('All Response = ', response);
+                <TouchableWithoutFeedback onPress={() => Alert.alert(MYAPP, 'Pilih ambil gambar', [
+                    {
+                        'text': 'cancel'
+                    },
+                    {
+                        text: 'GALERI',
+                        onPress: () => {
+                            launchImageLibrary({
+                                includeBase64: true,
+                                quality: 1,
+                                mediaType: "photo",
+                                maxWidth: 1000,
+                                maxHeight: 1000
+                            }, response => {
+                                // console.log('All Response = ', response);
 
-                        setKirim({
-                            ...kirim,
-                            foto_keterangan: `data:${response.type};base64, ${response.base64}`,
-                        });
-                    });
-                }}>
+                                setKirim({
+                                    ...kirim,
+                                    foto_keterangan: `data:${response.type};base64, ${response.base64}`,
+                                });
+                            });
+                        }
+                    },
+                    {
+                        text: 'KAMERA',
+                        onPress: () => {
+                            launchCamera({
+                                includeBase64: true,
+                                quality: 1,
+                                mediaType: "photo",
+                                maxWidth: 1000,
+                                maxHeight: 1000
+                            }, response => {
+                                // console.log('All Response = ', response);
+
+                                setKirim({
+                                    ...kirim,
+                                    foto_keterangan: `data:${response.type};base64, ${response.base64}`,
+                                });
+                            });
+                        }
+                    }
+                ])}>
                     <View style={{
                         backgroundColor: colors.white,
                         borderRadius: 10,
@@ -316,22 +488,49 @@ export default function Pendaftaran({ navigation, route }) {
                     marginBottom: 10,
                 }}>Upload Pas Foto Latar Belakang Putih
                 </Text>
-                <TouchableWithoutFeedback onPress={() => {
-                    launchImageLibrary({
-                        includeBase64: true,
-                        quality: 1,
-                        mediaType: "photo",
-                        maxWidth: 500,
-                        maxHeight: 500
-                    }, response => {
-                        // console.log('All Response = ', response);
+                <TouchableWithoutFeedback onPress={() => Alert.alert(MYAPP, 'Pilih ambil gambar', [
+                    {
+                        'text': 'cancel'
+                    },
+                    {
+                        text: 'GALERI',
+                        onPress: () => {
+                            launchImageLibrary({
+                                includeBase64: true,
+                                quality: 1,
+                                mediaType: "photo",
+                                maxWidth: 1000,
+                                maxHeight: 1000
+                            }, response => {
+                                // console.log('All Response = ', response);
 
-                        setKirim({
-                            ...kirim,
-                            foto_wajah: `data:${response.type};base64, ${response.base64}`,
-                        });
-                    });
-                }}>
+                                setKirim({
+                                    ...kirim,
+                                    foto_wajah: `data:${response.type};base64, ${response.base64}`,
+                                });
+                            });
+                        }
+                    },
+                    {
+                        text: 'KAMERA',
+                        onPress: () => {
+                            launchCamera({
+                                includeBase64: true,
+                                quality: 1,
+                                mediaType: "photo",
+                                maxWidth: 1000,
+                                maxHeight: 1000
+                            }, response => {
+                                // console.log('All Response = ', response);
+
+                                setKirim({
+                                    ...kirim,
+                                    foto_wajah: `data:${response.type};base64, ${response.base64}`,
+                                });
+                            });
+                        }
+                    }
+                ])}>
                     <View style={{
                         backgroundColor: colors.white,
                         borderRadius: 10,

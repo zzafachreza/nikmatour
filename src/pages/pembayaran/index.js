@@ -187,13 +187,13 @@ export default function Pembayaran({ navigation, route }) {
                     flex: 1,
                     fontFamily: fonts.secondary[800],
                     fontSize: MyDimensi / 4
-                  }}>Kurang Bayar</Text>
+                  }}>{(item.total - item.bayar) > 0 ? 'Kurang Bayar' : 'Lebih Bayar'}</Text>
                   <Text style={{
                     flex: 1,
                     fontFamily: fonts.secondary[800],
                     textAlign: 'right',
                     fontSize: MyDimensi / 3
-                  }}>{new Intl.NumberFormat().format(item.total - item.bayar)}</Text>
+                  }}>{new Intl.NumberFormat().format((item.total - item.bayar) > 0 ? (item.total - item.bayar) : Math.abs(item.total - item.bayar))}</Text>
                 </View>
               </View>
             </TouchableWithoutFeedback>
