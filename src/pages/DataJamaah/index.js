@@ -5,15 +5,18 @@ import { apiURL } from '../../utils/localStorage';
 import axios from 'axios';
 import { MyDimensi, colors, fonts } from '../../utils';
 import { Icon } from 'react-native-elements';
+import { useIsFocused } from '@react-navigation/native';
 
 
 export default function DataJamaah({ navigation, route }) {
   const user = route.params;
   const [jamaah, setJamaah] = useState([]);
-
+  const isFocus = useIsFocused();
   useEffect(() => {
-    __getJamaah();
-  }, []);
+    if (isFocus) {
+      __getJamaah();
+    }
+  }, [isFocus]);
 
 
   const __getJamaah = () => {

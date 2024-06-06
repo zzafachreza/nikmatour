@@ -160,6 +160,8 @@ export default function JamaahDetail({ navigation, route }) {
                     padding: 20,
                 }}>
                     <MyButton onPress={() => navigation.navigate('JamaahAgen', item)} warna={colors.primary} title="Jadikan Jamaah Agen" />
+                    <MyGap jarak={20} />
+                    <MyButton onPress={() => navigation.navigate('JamaahEdit', item)} colorText={colors.primary} warna={colors.white} title="Edit Data Jamaah" />
                 </View>
             </ScrollView>
         </SafeAreaView>

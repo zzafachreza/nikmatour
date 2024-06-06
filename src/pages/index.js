@@ -44,6 +44,7 @@ import JamaahDetail from './DataJamaah/JamaahDetail';
 import JamaahAgen from './DataJamaah/JamaahAgen';
 import TarikSaldo from './TarikSaldo';
 import TarikSaldoDetail from './TarikSaldo/TarikSaldoDetail';
+import JamaahEdit from './DataJamaah/JamaahEdit';
 
 
 
@@ -81,6 +82,7 @@ export {
   BayarDetail,
   BayarAdd,
   JamaahAgen,
+  JamaahEdit,
 
 
 

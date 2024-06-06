@@ -48,6 +48,7 @@ import {
   JamaahAgen,
   TarikSaldo,
   TarikSaldoDetail,
+  JamaahEdit,
 
 
 } from '../pages';
@@ -135,6 +136,14 @@ export default function Router() {
       <Stack.Screen
         name="JamaahAgen"
         component={JamaahAgen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="JamaahEdit"
+        component={JamaahEdit}
         options={{
           headerShown: false,
         }}
