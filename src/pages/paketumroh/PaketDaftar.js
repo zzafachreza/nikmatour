@@ -33,7 +33,7 @@ export default function PaketDaftar({ navigation, route }) {
         desc_uphotel: '',
         desc_lainnya: '',
         diskon: 0,
-        pajak: item.harga_paket * 0.0055,
+        pajak: 0,
         total: item.harga_paket,
     });
 
@@ -376,7 +376,7 @@ export default function PaketDaftar({ navigation, route }) {
                             textAlign: 'right'
                         }}>{new Intl.NumberFormat().format(kirim.total - kirim.diskon)}</Text>
                     </View>
-                    <View style={{
+                    {/* <View style={{
                         flexDirection: 'row',
                         alignItems: 'center'
                     }}>
@@ -393,7 +393,7 @@ export default function PaketDaftar({ navigation, route }) {
                             color: colors.white,
                             textAlign: 'right'
                         }}>{new Intl.NumberFormat().format(kirim.pajak)}</Text>
-                    </View>
+                    </View> */}
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center'

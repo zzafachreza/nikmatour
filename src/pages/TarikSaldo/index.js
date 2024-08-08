@@ -55,36 +55,36 @@ export default function TarikSaldo({ navigation, route }) {
     var totalBayar = 0;
     const sendServer = () => {
         console.log(kirim);
-        // if (kirim.jumlah > data.total) {
-        //     SweetAlert.showAlertWithOptions({
-        //         title: MYAPP,
-        //         subTitle: 'Maaf saldo kamu tidak cukup  !',
-        //         style: 'error',
-        //         cancellable: true
-        //     });
-        // } else {
-        //     setLoading(true)
-        //     axios.post(apiURL + 'insert_tarik', kirim).then(res => {
-        //         console.log(res.data);
-        //         if (res.data.status == 200) {
-        //             SweetAlert.showAlertWithOptions({
-        //                 title: MYAPP,
-        //                 subTitle: res.data.message,
-        //                 style: 'success',
-        //                 cancellable: true
-        //             }, callback => {
-        //                 navigation.navigate('TarikSaldoDetail', user)
-        //             });
-        //             setKirim({
-        //                 ...kirim,
-        //                 jumlah: 0,
-        //             })
-        //         }
-        //     }).finally(() => {
-        //         setLoading(false)
-        //     })
+        if (kirim.jumlah > data.total) {
+            SweetAlert.showAlertWithOptions({
+                title: MYAPP,
+                subTitle: 'Maaf saldo kamu tidak cukup  !',
+                style: 'error',
+                cancellable: true
+            });
+        } else {
+            setLoading(true)
+            axios.post(apiURL + 'insert_tarik', kirim).then(res => {
+                console.log(res.data);
+                if (res.data.status == 200) {
+                    SweetAlert.showAlertWithOptions({
+                        title: MYAPP,
+                        subTitle: res.data.message,
+                        style: 'success',
+                        cancellable: true
+                    }, callback => {
+                        navigation.navigate('TarikSaldoDetail', user)
+                    });
+                    setKirim({
+                        ...kirim,
+                        jumlah: 0,
+                    })
+                }
+            }).finally(() => {
+                setLoading(false)
+            })
 
-        // }
+        }
     }
     return (
         <View style={{ flex: 1, backgroundColor: "black" }}>
